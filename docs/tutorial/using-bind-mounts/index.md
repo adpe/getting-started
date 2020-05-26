@@ -36,18 +36,19 @@ So, let's do it!
 
 1. Make sure you don't have any previous `getting-started` containers running.
 
-1. Run the following command. We'll explain what's going on afterwards:
+1. Run the following command in the `app` directory. We'll explain what's going on afterwards:
 
     ```bash
     docker run -dp 3000:3000 \
         -w /app -v ${PWD}:/app \
-        getting-started \
+        node:12-alpine \
         sh -c "yarn install && yarn run dev"
     ```
 
     - `-dp 3000:3000` - same as before. Run in detached (background) mode and create a port mapping
     - `-w /app` - sets the "working directory" or the current directory that the command will run from
-    - `getting-started` - the image to use. Note that this is the base image for our app from the Dockerfile
+    - `-v ${PWD}:/app` - mounts the "app directory" as volume. If you are one directory above the `app` directory please use `${PWD}/app:/app` as parameter
+    - `node:12-alpine` - the image to use. Note that this is the base image for our app from the Dockerfile
     - `sh -c "yarn install && yarn run dev"` - the command. We're starting a shell using `sh` (alpine doesn't have `bash`) and
       running `yarn install` to install _all_ dependencies and then running `yarn run dev`. If we look in the `package.json`,
       we'll see that the `dev` script is starting `nodemon`.
